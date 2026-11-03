@@ -89,7 +89,7 @@ html,body{margin:0;height:100%;background:var(--ink);color:var(--ivory);font-fam
 <div id="talk" class="panel"><img id="talkimg" src="daphne.jpg" alt=""><div><div class="who" id="talkwho">达芙涅 · 运水人的女儿</div><div class="say" id="talksay"></div><div class="acts" id="talkacts"></div></div></div>
 <div id="card" class="panel"><button class="x" id="cardx">×</button><div id="cardbody"></div></div>
 <div id="year" class="panel"><div class="row"><span>建城 1 年</span><span class="big" id="ylab">建城 50 年 · 公元 379 年</span><span>70 年</span></div><input id="yr" type="range" min="1" max="70" step="1" value="50"><div class="row"><span id="ystat"></span><button id="gsp" title="这一年街坊们议论最多的事">街坊在说什么</button><span class="yhint">拖动看城长大，被选中的人会跟着变老</span></div></div>
-<div id="infobox" class="panel"><b style="color:var(--gold2)">这是怎么做的</b><br>房子、街道、建筑的位置和每栋房子建成的年份，都来自安托萨历史引擎的底账；画面由 AI 依引擎底图绘制：建城 10、30、50 年各一张，中间的年份按每栋房子的建成年份从上一张长到下一张。每栋房子里的一家人由房子的编号推演出来：同一栋房子永远是同一家人，他们会随年代出生、结婚、变老、死去。达芙涅和狄奥多罗斯来自第五卷《瓦伦斯的水》。干山上另有两百多户人家，由隔壁的街坊讲他们的事（刘线）：故事由 AI 从每户推演出的家庭写出，再由脚本逐条对照底账核对年份、人名、建筑和灾害，对不上的重写。声音全部由浏览器现场合成。卡片上的行当以经济账（建城 40–70 年逐年）为准，和行当对不上的旧文字没有改写，只加了 ⚠；建城 60 年以后账本里新盖的房子，只按账本位置画了轮廓。这是一个街区的试验。<br><br><button class="btn" id="infox">好</button></div>
+<div id="infobox" class="panel"><b style="color:var(--gold2)">这是怎么做的</b><br>房子、街道、建筑的位置和每栋房子建成的年份，都来自安托萨历史引擎的底账；画面由 AI 依引擎底图绘制：建城 10、30、50 年各一张，中间的年份按每栋房子的建成年份从上一张长到下一张。每栋房子里的一家人由房子的编号推演出来：同一栋房子永远是同一家人，他们会随年代出生、结婚、变老、死去。达芙涅和狄奥多罗斯来自第五卷《瓦伦斯的水》。干山上另有两百多户人家，由隔壁的街坊讲他们的事（刘线）：故事由 AI 从每户推演出的家庭写出，再由脚本逐条对照底账核对年份、人名、建筑和灾害，对不上的重写。声音全部由浏览器现场合成。卡片上的行当以经济账（建城 40–70 年逐年）为准，和行当对不上的旧文字没有改写，只加了 ⚠；建城 60 年以后账本里新盖的房子，只按账本位置画了轮廓。这是一个街区的试验。<br><a href="progress.html" style="color:var(--gold2)">里程碑截图 →</a><br><br><button class="btn" id="infox">好</button></div>
 
 <div id="intro">
  <div class="bg" id="ibg"></div><div class="veil"></div>
@@ -103,8 +103,9 @@ html,body{margin:0;height:100%;background:var(--ink);color:var(--ivory);font-fam
  </div>
 </div>
 
+<script src="rhythm.js?b=liu7"></script>
 <script>
-const BUILD='liu6';try{const _f=window.fetch.bind(window);window.fetch=(u,o)=>_f(typeof u==='string'&&!/^(https?:|data:|blob:)/.test(u)?u+(u.includes('?')?'&':'?')+'b='+BUILD:u,o);const d=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');if(d&&d.set)Object.defineProperty(HTMLImageElement.prototype,'src',{get:d.get,set(v){if(typeof v==='string'&&!/^(https?:|data:|blob:)/.test(v))v=v+(v.includes('?')?'&':'?')+'b='+BUILD;d.set.call(this,v)},configurable:true})}catch(e){}
+const BUILD='liu7';try{const _f=window.fetch.bind(window);window.fetch=(u,o)=>_f(typeof u==='string'&&!/^(https?:|data:|blob:)/.test(u)?u+(u.includes('?')?'&':'?')+'b='+BUILD:u,o);const d=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');if(d&&d.set)Object.defineProperty(HTMLImageElement.prototype,'src',{get:d.get,set(v){if(typeof v==='string'&&!/^(https?:|data:|blob:)/.test(v))v=v+(v.includes('?')?'&':'?')+'b='+BUILD;d.set.call(this,v)},configurable:true})}catch(e){}
 (async function(){
 'use strict';
 const $=id=>document.getElementById(id);
@@ -123,7 +124,7 @@ function drawComposed(A,vx0,vy0,vx1,vy1,per){if(!COMP||A<=0||!COMP.houses.comple
   if(!COMP.pat&&COMP.ground.complete){COMP.pat=ctx.createPattern(COMP.ground,'repeat');if(COMP.pat&&COMP.pat.setTransform)COMP.pat.setTransform(new DOMMatrix().scale(42/384))}
   if(COMP.pat){ctx.globalAlpha=.68*A;ctx.fillStyle=COMP.pat;ctx.fillRect(vx0,vy0,vx1-vx0,vy1-vy0)}
   const list=[];for(let gx=Math.floor((vx0-40)/G);gx<=Math.floor((vx1+40)/G);gx++)for(let gy=Math.floor((vy0-20)/G);gy<=Math.floor((vy1+60)/G);gy++){const c=grid.get(gx+','+gy);if(c)for(const h of c)if(h.built<=YEAR&&h.destroyed>YEAR)list.push(h)}
-  const it=[];for(const h of list){const g=geomOf(h);it.push([g.by,0,h,g]);if(g.pr)it.push([g.by+1.5,1,h,g]);if(g.pp&&per!=='night')it.push([g.by+2.5,2,h,g])}
+  const it=[];for(const h of list){const g=geomOf(h);it.push([g.by,0,h,g]);if(g.pr)it.push([g.by+1.5,1,h,g]);if(g.pp&&(S=>clock*60>=S.wake&&clock*60<S.on+30)(sched(h,YEAR)))it.push([g.by+2.5,2,h,g])}
   it.sort((a,b)=>a[0]-b[0]);ctx.globalAlpha=A;
   for(const [by,t,h,g] of it){if(t===0){const m=g.m;ctx.fillStyle='rgba(50,32,14,.22)';ctx.beginPath();ctx.ellipse(h.cx+2,by-g.hh*.22,g.w*.52,g.hh*.3,0,0,7);ctx.fill();if(h.built===YEAR)ctx.globalAlpha=A*.55;ctx.drawImage(COMP.houses,m.x,0,m.w,m.h,h.cx-g.w/2,by-g.hh,g.w,g.hh);ctx.globalAlpha=A}
     else if(t===1){const m=g.pr,sc=6/Math.max(m.w,m.h);ctx.drawImage(COMP.props,m.x,0,m.w,m.h,h.cx+g.prx-m.w*sc/2,by-m.h*sc,m.w*sc,m.h*sc)}
@@ -142,7 +143,11 @@ function sceneWhere(S){for(const c of S.cast){const st=streetOf(c[3],YEAR);if(st
 /* liu6 · 统一行当（surface_v23）：行当以经济层生计为准（trades.json，economy_v21 逐年），手工铺/作坊才用原散列行当做细分；
    与之矛盾的已有文本不改写，conflicts.json 标出（此刻/物件那几年不显示，段落加 ⚠）——Hark（刘线） */
 const TR={h:{},term:[],liv:[],craft:[],fine:[]},CF={c:{},compat:{},story:{}};
-fetch('trades.json').then(r=>r.ok?r.json():null).then(v=>{if(!v)return;TR.h=v.h;TR.term=v.term;TR.liv=v.liv;TR.craft=v.craft_liv;TR.fine=v.craft_fine;try{if(sel)renderCard()}catch(e){}}).catch(()=>{});
+fetch('trades.json').then(r=>r.ok?r.json():null).then(v=>{if(!v)return;TR.h=v.h;TR.term=v.term;TR.liv=v.liv;TR.craft=v.craft_liv;TR.fine=v.craft_fine;rhReset();try{if(sel)renderCard()}catch(e){}}).catch(()=>{});
+/* liu7 · rhythm_v24：生计决定作息、任何效果都不整齐划一（rhythm.js）。贫困/灶冷标记来自 rhythm_flags.json */
+const RHF={f:null},RHC={Y:null,m:new Map(),lights:null};const rhReset=()=>{RHC.Y=null};
+fetch('rhythm_flags.json').then(r=>r.ok?r.json():null).then(v=>{if(v){RHF.f=v.f;rhReset()}}).catch(()=>{});
+function sched(h,Y){if(RHC.Y!==Y){RHC.Y=Y;RHC.m=new Map();RHC.lights=null}let S=RHC.m.get(h.id);if(!S){S=RH.schedFor(TR.liv.length?TR:null,RHF.f?RHF:null,h.id,Y);RHC.m.set(h.id,S)}return S}
 fetch('conflicts.json').then(r=>r.ok?r.json():null).then(v=>{if(!v)return;CF.c=v.c;CF.compat=v.compat;CF.story=v.story;try{if(sel)renderCard()}catch(e){}}).catch(()=>{});
 function trCode(id,Y){const s=TR.h[id];if(!s)return null;const k=Math.min(Math.max(Y,40),70)-40;if(s[k]!=='.')return s.charCodeAt(k)-97;for(let d=1;d<31;d++)for(const kk of [k-d,k+d])if(kk>=0&&kk<s.length&&s[kk]!=='.')return s.charCodeAt(kk)-97;return null}
 function tradeAt(id,Y,fine){const c=trCode(id,Y);if(c==null)return {label:fine||'',src:'散列'};const lab=(TR.craft.includes(c)&&TR.fine.includes(fine))?fine:TR.term[c];return {label:lab,liv:TR.liv[c],src:Y<40?'回推':'账本'}}
@@ -455,16 +460,16 @@ const R0=rng(7);
 const COLS=['#c98b3a','#9b3b2a','#d8cbb0','#3d5a80','#6b5a3a','#e0dccf','#7a4a6a'];
 const SPW=SCENE.id==='xero'?{0:6,12:4,17:5,14:3,9:3,15:2,16:2,3:1,1:1,10:2,11:2,18:1,6:1,7:1,13:1,19:0,20:1,21:0,2:0}:{0:3,1:6,2:3,3:4,6:2,7:2,9:3,10:3,11:3,12:2,13:1,14:2,15:2,16:1,17:2,18:2,19:3,20:1,21:1};
 function pickSprite(rnd){let tot=0;for(const m of PPL)tot+=SPW[m.k]||0;let u=rnd()*tot;for(const m of PPL){u-=SPW[m.k]||0;if(u<=0)return m}return PPL[0]}
-const stalls=[];{const SC=['#a8452e','#2f5d8a','#3c7a4a','#c08a2e','#7a3d6e'],SG=['#d9b25a','#7fa04a','#c45a3a','#e0d0a0','#6b8bb0'];for(let i=0;i<420;i++){let u=R0()*totalL,ri=0;while(u>roads[ri].L){u-=roads[ri].L;ri++}const[x,y,nx,ny]=onRoad(roads[ri],u);const sd=R0()<.5?-1:1;stalls.push({x:x+nx*sd*7,y:y+ny*sd*7,c:pick(R0,SC),g:pick(R0,SG)})}}
-const walkers=[];for(let i=0;i<520;i++){let u=R0()*totalL,ri=0;while(u>roads[ri].L){u-=roads[ri].L;ri++}walkers.push({r:ri,s:u,v:(R0()<.5?-1:1)*(6+R0()*10),off:(R0()-.5)*16,c:pick(R0,COLS),pause:0,k:R0(),sp:pickSprite(R0)})}
+const stalls=[];{const SC=['#a8452e','#2f5d8a','#3c7a4a','#c08a2e','#7a3d6e'],SG=['#d9b25a','#7fa04a','#c45a3a','#e0d0a0','#6b8bb0'];for(let i=0;i<420;i++){let u=R0()*totalL,ri=0;while(u>roads[ri].L){u-=roads[ri].L;ri++}const[x,y,nx,ny]=onRoad(roads[ri],u);const sd=R0()<.5?-1:1;stalls.push({x:x+nx*sd*7,y:y+ny*sd*7,c:pick(R0,SC),g:pick(R0,SG),w:RH.stallWin(i)})}}
+const walkers=[];for(let i=0;i<520;i++){let u=R0()*totalL,ri=0;while(u>roads[ri].L){u-=roads[ri].L;ri++}walkers.push({r:ri,s:u,v:(R0()<.5?-1:1)*(6+R0()*10),off:(R0()-.5)*16,c:pick(R0,COLS),pause:0,k:R0(),sp:pickSprite(R0),home:houses[Math.floor(RH.h01('wk'+i,'home')*houses.length)],wj:Math.round((RH.h01('wk'+i,'j')*2-1)*20),nite:RH.h01('wk'+i,'nite')<.08?[1200+Math.round(RH.h01('wk'+i,'n0')*90),60+Math.round(RH.h01('wk'+i,'n1')*90)]:null})}
 const HT=city.hippodrome_track||{center:[-9999,-9999],semi_long:1,semi_short:1,angle_deg:0};const race={on:false,score:''};
 const chariots=['#2f6fd6','#2f9e4f','#c8352c','#f2f0e6'].map((c,i)=>({c,a:i*.4,v:.55+i*.04+R0()*.08}));
 const ships=[];for(let i=0;i<6;i++)ships.push({x:HB[0]+80+R0()*(HB[2]-HB[0]-160),y:HB[1]+60+R0()*(HB[3]-HB[1]-110),ph:R0()*6});
 const seaShips=[];for(let i=0;i<3;i++)seaShips.push({t:R0(),off:60+R0()*140,v:.006+R0()*.006});
-const smokes=[];while(smokes.length<36){const x=R0()*W,y=R0()*H;if(!isSea(x,y)&&!inHarbor(x,y))smokes.push({x,y,ph:R0()*10})}
+const smokes=[];while(smokes.length<36){const x=R0()*W,y=R0()*H;if(!isSea(x,y)&&!inHarbor(x,y))smokes.push({x,y,ph:R0()*10,sw:RH.smokeWin(smokes.length)})}
 const gulls=[];for(let i=0;i<6;i++)gulls.push({cx:1300+R0()*400,cy:1600+R0()*350,r:40+R0()*90,a:R0()*6,v:.3+R0()*.4});
 gulls.push({cx:900,cy:160,r:120,a:1,v:.35},{cx:780,cy:120,r:70,a:3,v:.5});
-const glows=[];while(glows.length<220){const h=houses[Math.floor(R0()*houses.length)];glows.push({h,ph:R0()*6})}
+const glows=[];while(glows.length<220){const h=houses[Math.floor(R0()*houses.length)];glows.push({h,ph:R0()*6})} // liu7：不再用来画灯，留着保持 R0 序列不变（后面的随机物件位置不动）
 const arriving={t:-1}; // ship entering harbor after intro
 
 /* ---------- clock ---------- */
@@ -535,7 +540,7 @@ $('go').onclick=()=>enter(true);$('skip').onclick=()=>enter(false);
 if(SCENE.intro)startIntro();else{$('intro').remove();cam.z=minZ();clampCam();setTimeout(()=>{flyTo(DHOME[0],DHOME[1],1.2,2500);setTimeout(()=>{openNamed(DAPH);hush();say(DAPH,SCENE.greet,[['拨动年代',()=>{hush();glowYear()}],['回城东尖角',()=>location.href='../']])},2700)},400)}
 
 /* ---------- render ---------- */
-let last=performance.now(),gullT=0,bellHour=-1;
+let last=performance.now(),gullT=0,bellHour=-1,bellM=clock*60;
 function grade(t){ // returns [color, alpha]
   if(t<4.5||t>=21)return['rgba(12,22,58,',.55];if(t<6)return['rgba(255,150,90,',.25*(1-(t-4.5)/1.5)+.1];if(t<8)return['rgba(255,190,120,',.12*(1-(t-6)/2)];
   if(t<16)return['rgba(0,0,0,',0];if(t<18.5)return['rgba(255,170,70,',.18*(t-16)/2.5];if(t<21)return['rgba(30,30,80,',.18+.37*(t-18.5)/2.5];return['rgba(12,22,58,',.55]}
@@ -582,15 +587,16 @@ function surfRefresh(){surfLoad(surfYearFor(YEAR)).then(()=>{surfPanel();if(sel)
 $('surf').addEventListener('click',e=>{const b=e.target.closest('[data-sy]');if(!b)return;e.stopPropagation();const yy=+b.dataset.sy;if(YEAR!==yy){$('yr').value=yy;setYear(yy)}surfRefresh()});
 $('surfbtn').addEventListener('click',e=>{e.stopPropagation();SURF.on=!SURF.on;$('surfbtn').style.background=SURF.on?'rgba(212,168,90,.35)':'';surfRefresh()});
 $('yr').addEventListener('input',()=>{if(SURF.on){surfPanel();surfRefresh()}});
-const _renderCardBase=renderCard;renderCard=function(){_renderCardBase();if(SURF.on&&sel&&(sel.kind==='house'||sel.kind==='newhouse')&&$('card').style.display!=='none'){$('cardbody').insertAdjacentHTML('afterbegin',surfHTML(sel.kind==='house'?sel.hh.h.id:sel.h.id))}};
+const _renderCardBase=renderCard;renderCard=function(){_renderCardBase();if(sel&&(sel.kind==='house'||sel.kind==='newhouse')&&$('card').style.display!=='none'){const h=sel.kind==='house'?sel.hh.h:sel.h;if(YEAR>=h.built&&YEAR<h.destroyed){const m=$('cardbody').querySelector('.meta');if(m)m.insertAdjacentHTML('afterend',`<div class="meta">这家的一天：${RH.dayLine(sched(h,YEAR))}</div>`)}}if(SURF.on&&sel&&(sel.kind==='house'||sel.kind==='newhouse')&&$('card').style.display!=='none'){$('cardbody').insertAdjacentHTML('afterbegin',surfHTML(sel.kind==='house'?sel.hh.h.id:sel.h.id))}};
 function drawNewHouses(vis){for(const h of newHouses){if(!(h.built<=YEAR&&h.destroyed>YEAR))continue;if(!vis(h.cx,h.cy,30))continue;ctx.beginPath();polyPath(ctx,h.p,1.25);ctx.fillStyle=h.built>=YEAR-1?'rgba(196,160,110,.55)':'rgba(176,138,92,.72)';ctx.fill();ctx.strokeStyle='rgba(70,45,25,.85)';ctx.lineWidth=.7;ctx.stroke()}}
 function drawSurface(vis){const D=surfCur();if(!D)return;const Y=D.year;
   for(const h of houses.concat(newHouses)){if(!(h.built<=Y&&h.destroyed>Y))continue;if(!vis(h.cx,h.cy,30))continue;const r=D.houses[String(h.id)];
     ctx.beginPath();polyPath(ctx,h.p,h.isNew?1.25:1.6);if(!r){if(D.gone&&D.gone[String(h.id)]){ctx.strokeStyle='rgba(30,25,20,.8)';ctx.lineWidth=1.2;ctx.setLineDash([2,2]);ctx.stroke();ctx.setLineDash([])}continue}
     ctx.fillStyle=MCOL[r[0]];ctx.fill();
     if(cam.z>=.9){const s=Math.max(2.2,3.2/Math.sqrt(cam.z));
-      if(r[1]===1){ctx.fillStyle='#f2c14e';ctx.beginPath();ctx.arc(h.cx,h.cy,s,0,7);ctx.fill()}
-      else if(r[1]===2){ctx.fillStyle='#e07b39';ctx.fillRect(h.cx-s,h.cy-s,2*s,2*s)}
+      const op=(r[1]===1||r[1]===2)&&RH.shopOpenAt(sched(h,YEAR),h.id,YEAR,clock*60); /* liu7：● ■ 只在营业时段亮，关着时只剩空心 */
+      if(r[1]===1){ctx.beginPath();ctx.arc(h.cx,h.cy,s,0,7);if(op){ctx.fillStyle='#f2c14e';ctx.fill()}else{ctx.strokeStyle='rgba(242,193,78,.55)';ctx.lineWidth=.7;ctx.stroke()}}
+      else if(r[1]===2){if(op){ctx.fillStyle='#e07b39';ctx.fillRect(h.cx-s,h.cy-s,2*s,2*s)}else{ctx.strokeStyle='rgba(224,123,57,.55)';ctx.lineWidth=.7;ctx.strokeRect(h.cx-s,h.cy-s,2*s,2*s)}}
       else if(r[1]===3){ctx.strokeStyle='#d33';ctx.lineWidth=s*.55;ctx.beginPath();ctx.moveTo(h.cx-s,h.cy-s);ctx.lineTo(h.cx+s,h.cy+s);ctx.moveTo(h.cx+s,h.cy-s);ctx.lineTo(h.cx-s,h.cy+s);ctx.stroke()}
       if(r[5]&1){ctx.strokeStyle=(r[5]&2)?'rgba(40,40,45,.95)':'rgba(170,180,185,.9)';ctx.lineWidth=.8;ctx.beginPath();ctx.arc(h.cx,h.cy,s*1.9,0,7);ctx.stroke()}}}
   if(cam.z>=.8){ctx.font=`${11/cam.z}px serif`;for(const st of D.streets){if(!vis(st.x,st.y,60))continue;const nm=streetName(st.si,Y);if(!nm)continue;
@@ -601,7 +607,11 @@ function drawSurface(vis){const D=surfCur();if(!D)return;const Y=D.year;
     const tw=ctx.measureText(t).width;ctx.fillStyle='rgba(60,20,15,.82)';ctx.fillRect(x-tw/2-4/cam.z,y-14/cam.z,tw+8/cam.z,18/cam.z);ctx.fillStyle='#ffe6b0';ctx.fillText(t,x-tw/2,y)}}
 function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;
   clock=(clock+dt*speed*(sceneSlow?.3:1)*24/DAY)%24;const per=periodOf(clock);race.on=has('hippodrome')&&clock>=13&&clock<17;
-  const hr=Math.floor(clock);if(hr!==bellHour){bellHour=hr;if(hr===6||hr===18){const d=Math.min(dist(cam.x,cam.y,LM.church_peace.xy[0],LM.church_peace.xy[1]),dist(cam.x,cam.y,LM.church_megale.xy[0],LM.church_megale.xy[1]));const v=.06+.16*clamp(1-d/1200,0,1);for(let k=0;k<5;k++)setTimeout(()=>bell(v,hr===6?294:262),k*1700)}
+  const hr=Math.floor(clock),mNow=clock*60;
+  /* liu7：两座教堂各按自己的钟点敲，不再同一刻齐响 */
+  for(const cid of ['church_peace','church_megale']){const L=LM[cid];if(!L)continue;for(const bt of RH.bellTimes(cid)){const crossed=bellM<=mNow?(bt>bellM&&bt<=mNow):(bt>bellM||bt<=mNow);if(crossed){const d=dist(cam.x,cam.y,L.xy[0],L.xy[1]);const v=.06+.16*clamp(1-d/1200,0,1);const f=bt<720?294:262;for(let k=0;k<5;k++)setTimeout(()=>bell(v,f),k*1700)}}}
+  bellM=mNow;
+  if(hr!==bellHour){bellHour=hr;
     if(hr===13)race.score='蓝 0 · 绿 0 · 红 0 · 白 0';}
   if(race.on&&Math.random()<dt*.05){const s=race.score.match(/\d+/g).map(Number);s[Math.floor(Math.random()*4)]++;race.score=`蓝 ${s[0]} · 绿 ${s[1]} · 红 ${s[2]} · 白 ${s[3]}`}
   $('clock').textContent=HOURS[hr]+' '+(hr%12||12)+' 时'+(race.on?' · 赛马中':'');
@@ -617,20 +627,20 @@ function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;
   const [vx0,vy0]=s2w(0,0),[vx1,vy1]=s2w(VW,VH);drawComposed(clamp((cam.z-2.0)/1.2,0,1),vx0,vy0,vx1,vy1,per);if(closeA>0){const r=closeC.r;ctx.globalAlpha=closeA;ctx.drawImage(closeC.im,r[0],r[1],r[2]-r[0],r[3]-r[1]);ctx.globalAlpha=1}const vis=(x,y,m=40)=>x>vx0-m&&x<vx1+m&&y>vy0-m&&y<vy1+m;drawNewHouses(vis);if(SURF.on)drawSurface(vis);
   const t=now/1000;const density=clamp(houses.filter(h=>h.built<=YEAR).length/houses.length,.25,1);
   // smoke
-  for(const s of smokes){if(!vis(s.x,s.y,120))continue;const str=per==='morning'||per==='evening'?1:.55;for(let k=0;k<5;k++){const ph=((t*.12+s.ph+k*.2)%1);const x=s.x+ph*60+Math.sin(t+k)*4,y=s.y-ph*90;ctx.fillStyle=`rgba(225,220,210,${.13*(1-ph)*str})`;ctx.beginPath();ctx.arc(x,y,4+ph*14,0,7);ctx.fill()}}
+  for(const s of smokes){if(!vis(s.x,s.y,120))continue;const str=RH.smokeAt(s.sw,mNow);if(str<=0)continue;for(let k=0;k<5;k++){const ph=((t*.12+s.ph+k*.2)%1);const x=s.x+ph*60+Math.sin(t+k)*4,y=s.y-ph*90;ctx.fillStyle=`rgba(225,220,210,${.13*(1-ph)*str})`;ctx.beginPath();ctx.arc(x,y,4+ph*14,0,7);ctx.fill()}}
   // construction: houses going up this year, public works about to open
   if(cam.z>=.7){ctx.lineWidth=.9;const compOn=COMP&&cam.z>=2.6;for(const h of buildingNow){if(compOn){if(vis(h.cx,h.cy)&&!inClose(h.cx,h.cy)){const m=COMP.pm.find(q=>q.k===11)||COMP.pm[0];const sc=7/Math.max(m.w,m.h);ctx.drawImage(COMP.props,m.x,0,m.w,m.h,h.cx-m.w*sc/2,h.cy-m.h*sc/2,m.w*sc,m.h*sc)}continue}if(!vis(h.cx,h.cy)||inClose(h.cx,h.cy))continue;const p=h.p;ctx.strokeStyle='rgba(120,80,40,.85)';ctx.beginPath();for(let i=0;i<p.length;i+=2){const x=h.cx+(p[i]-h.cx)*2.0,y=h.cy+(p[i+1]-h.cy)*2.0;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.closePath();ctx.stroke();
       const r=8;for(let k=-r;k<=r;k+=3){ctx.beginPath();ctx.moveTo(h.cx+k-3,h.cy-r*.6);ctx.lineTo(h.cx+k+3,h.cy+r*.6);ctx.stroke()}
-      if(cam.z>=1.5&&per!=='night'){const m=PPL.find(q=>q.k===17);const hh=9.5,ww=m.w/m.h*hh;ctx.drawImage(pplImg,m.x,m.y,m.w,m.h,h.cx+6,h.cy-hh+3,ww,hh)}}
+      if(cam.z>=1.5&&(cw=>mNow>=cw[0]&&mNow<cw[1])(RH.workWin(h.id))){const m=PPL.find(q=>q.k===17);const hh=9.5,ww=m.w/m.h*hh;ctx.drawImage(pplImg,m.x,m.y,m.w,m.h,h.cx+6,h.cy-hh+3,ww,hh)}}
     for(const k in late){const L=late[k];if(!(L.built>YEAR&&L.built<=YEAR+2))continue;const pts=L.p.flat?L.p:L.p;ctx.fillStyle='rgba(140,100,60,.45)';ctx.strokeStyle='rgba(110,70,35,.9)';ctx.beginPath();polyPath(ctx,L.p.flat(),1);ctx.fill();ctx.stroke();
-      const c=L.p.reduce((a,q)=>[a[0]+q[0]/L.p.length,a[1]+q[1]/L.p.length],[0,0]);if(per!=='night'&&cam.z>=1.2){for(let j=0;j<3;j++){const m=PPL.find(q=>q.k===(j?17:1));const hh=9.5,ww=m.w/m.h*hh;ctx.drawImage(pplImg,m.x,m.y,m.w,m.h,c[0]-15+j*12,c[1]-5+Math.sin(t*2+j)*1.5,ww,hh)}}
+      const c=L.p.reduce((a,q)=>[a[0]+q[0]/L.p.length,a[1]+q[1]/L.p.length],[0,0]);if(cam.z>=1.2&&(cw=>mNow>=cw[0]&&mNow<cw[1])(RH.workWin('late'+k))){for(let j=0;j<3;j++){const m=PPL.find(q=>q.k===(j?17:1));const hh=9.5,ww=m.w/m.h*hh;ctx.drawImage(pplImg,m.x,m.y,m.w,m.h,c[0]-15+j*12,c[1]-5+Math.sin(t*2+j)*1.5,ww,hh)}}
       if(cam.z>=.8){ctx.font=`${12/cam.z}px serif`;const tx='工地：建城 '+L.built+' 年完工';const tw=ctx.measureText(tx).width;ctx.fillStyle='rgba(20,17,13,.75)';ctx.fillRect(c[0]-tw/2-3/cam.z,c[1]-26/cam.z,tw+6/cam.z,15/cam.z);ctx.fillStyle='#f3ead8';ctx.fillText(tx,c[0]-tw/2,c[1]-15/cam.z)}}}
   // market stalls along the streets (more as the city fills; folded at night)
-  if(cam.z>=1&&(per==='morning'||per==='day')){const nS=Math.floor(stalls.length*density);for(let i=0;i<nS;i++){const st=stalls[i];if(!vis(st.x,st.y)||inClose(st.x,st.y))continue;ctx.fillStyle='rgba(40,25,10,.3)';ctx.fillRect(st.x-5,st.y-1.5,11,6);ctx.fillStyle=st.c;ctx.fillRect(st.x-5.5,st.y-4,11,4.5);ctx.fillStyle='rgba(255,250,235,.9)';for(let k=0;k<4;k++)ctx.fillRect(st.x-5.5+k*2.9,st.y-4,1.4,4.5);ctx.fillStyle=st.g;for(let k=0;k<4;k++){ctx.beginPath();ctx.arc(st.x-3.6+k*2.4,st.y+2,1.1,0,7);ctx.fill()}}}
+  if(cam.z>=1){const nS=Math.floor(stalls.length*density);for(let i=0;i<nS;i++){const st=stalls[i];if(mNow<st.w[0]||mNow>=st.w[1])continue;if(!vis(st.x,st.y)||inClose(st.x,st.y))continue;ctx.fillStyle='rgba(40,25,10,.3)';ctx.fillRect(st.x-5,st.y-1.5,11,6);ctx.fillStyle=st.c;ctx.fillRect(st.x-5.5,st.y-4,11,4.5);ctx.fillStyle='rgba(255,250,235,.9)';for(let k=0;k<4;k++)ctx.fillRect(st.x-5.5+k*2.9,st.y-4,1.4,4.5);ctx.fillStyle=st.g;for(let k=0;k<4;k++){ctx.beginPath();ctx.arc(st.x-3.6+k*2.4,st.y+2,1.1,0,7);ctx.fill()}}}
   // walkers
-  const nightF=per==='night'?.15:per==='evening'?.6:1;const nW=Math.floor(walkers.length*nightF*density);
+  /* liu7：每个行人跟着自家生计出门回家（作息表 + 自己的 ±20 分钟），另有少数夜行人 */const nW=Math.floor(walkers.length*density);
   const big=cam.z>1.2;
-  for(let i=0;i<nW;i++){const w=walkers[i];if(w.pause>0)w.pause-=dt;else{w.s+=w.v*dt*speed*.6+w.v*dt*.4;if(Math.random()<dt*.02)w.pause=1+Math.random()*3}const r=roads[w.r];if(w.s<0){w.s=0;w.v=-w.v}if(w.s>r.L){w.s=r.L;w.v=-w.v}
+  for(let i=0;i<nW;i++){const w=walkers[i];if(!(RH.outAt(sched(w.home,YEAR),(mNow-w.wj+1440)%1440)||(w.nite&&RH.inWin(mNow,w.nite[0],w.nite[1]))))continue;if(w.pause>0)w.pause-=dt;else{w.s+=w.v*dt*speed*.6+w.v*dt*.4;if(Math.random()<dt*.02)w.pause=1+Math.random()*3}const r=roads[w.r];if(w.s<0){w.s=0;w.v=-w.v}if(w.s>r.L){w.s=r.L;w.v=-w.v}
     const[x,y,nx,ny]=onRoad(r,w.s);const px=x+nx*w.off,py=y+ny*w.off;if(!vis(px,py)||inClose(px,py))continue;
     if(cam.z>=1.5){const m=w.sp,hh=m.h/72*9.5,ww=m.w/m.h*hh;const bob=w.pause>0?0:Math.abs(Math.sin(t*8+w.k*9))*.5;ctx.fillStyle='rgba(30,20,10,.28)';ctx.beginPath();ctx.ellipse(px,py+.3,ww*.38,1.1,0,0,7);ctx.fill();
       const dx=onRoad(r,Math.min(r.L,w.s+1))[0]-x;const flip=(w.v*(dx||1))<0;ctx.save();ctx.translate(px,py-bob);if(flip)ctx.scale(-1,1);ctx.drawImage(pplImg,m.x,m.y,m.w,m.h,-ww/2,-hh,ww,hh);ctx.restore()}
@@ -651,8 +661,10 @@ function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;
   gullT-=dt;if(gullT<0){gullT=4+Math.random()*8;gullCry(nearSeaAmt(cam.x,cam.y)*(per==='night'?.2:1))}
   // grade & night lights
   const[gc,ga]=grade(clock);if(ga>0){ctx.fillStyle=gc+ga+')';ctx.fillRect(0,0,W,H)}
-  if(per==='night'||clock>=19||clock<5.5){const k=clock>=19&&clock<21?(clock-19)/2:clock>=4.5&&clock<5.5?1-(clock-4.5):1;ctx.globalCompositeOperation='lighter';
-    for(const g of glows){if(!(g.h.built<=YEAR&&g.h.destroyed>YEAR))continue;if(!vis(g.h.cx,g.h.cy))continue;const fl=.6+.4*Math.sin(t*3+g.ph);const rg=ctx.createRadialGradient(g.h.cx,g.h.cy,0,g.h.cx,g.h.cy,9);rg.addColorStop(0,`rgba(255,190,90,${.75*k*fl})`);rg.addColorStop(1,'rgba(255,150,50,0)');ctx.fillStyle=rg;ctx.fillRect(g.h.cx-9,g.h.cy-9,18,18)}
+  /* liu7：窗灯逐户——按生计作息点灯熄灯，每户自己的偏移、亮度、灯晕；灶冷户不点灯 */
+  {if(!RHC.lights||RHC.Y!==YEAR){sched({id:-1},YEAR);RHC.lights=houses.concat(newHouses).filter(h=>h.built<=YEAR&&h.destroyed>YEAR&&(RH.h01(h.id,'win')<.06||sched(h,YEAR).liv==='面包'))}
+    ctx.globalCompositeOperation='lighter';
+    for(const h of RHC.lights){const S=sched(h,YEAR);const v=RH.lightAt(S,mNow);if(v<=0||!vis(h.cx,h.cy))continue;const fl=.6+.4*Math.sin(t*3+S.ph);const R=S.rad;const rg=ctx.createRadialGradient(h.cx,h.cy,0,h.cx,h.cy,R);rg.addColorStop(0,`rgba(255,190,90,${.75*v*fl})`);rg.addColorStop(1,'rgba(255,150,50,0)');ctx.fillStyle=rg;ctx.fillRect(h.cx-R,h.cy-R,2*R,2*R)}
     ctx.globalCompositeOperation='source-over'}
   // story lamps
   const LB=[];for(const id in STORIES){const h=houseById(+id);if(!h||!(h.built<=YEAR&&h.destroyed>YEAR))continue;if(!vis(h.cx,h.cy))continue;const S=STORIES[id];if(S.members.every(m=>m.d<=YEAR))continue;const p=.6+.4*Math.sin(t*1.7+h.id);const rr=10/Math.max(cam.z,.5);const rg=ctx.createRadialGradient(h.cx,h.cy,0,h.cx,h.cy,rr*1.8);rg.addColorStop(0,`rgba(255,200,110,${.55*p})`);rg.addColorStop(1,'rgba(255,170,70,0)');ctx.fillStyle=rg;ctx.beginPath();ctx.arc(h.cx,h.cy,rr*1.8,0,7);ctx.fill();ctx.fillStyle='#ffd88a';ctx.beginPath();ctx.arc(h.cx,h.cy,2.6/Math.max(cam.z,.5),0,7);ctx.fill();
@@ -707,7 +719,7 @@ function drawScenes(t,vis){const bubbles=[];let started=null;sceneSlow=false;
 function qp(th,mx,my,u){const a=(1-u)*(1-u),b=2*u*(1-u),c=u*u;return[a*th.fx+b*mx+c*th.x,a*th.fy+b*my+c*th.y]}
 function drawQ(th,mx,my,k){ctx.beginPath();ctx.moveTo(th.fx,th.fy);const N=24;for(let i=1;i<=N*k;i++){const q=qp(th,mx,my,i/N);ctx.lineTo(q[0],q[1])}ctx.stroke()}
 requestAnimationFrame(frame);
-window.__anth={newHouses,SURF,surfCur,tradeAt,tradeOfH,TR,CF,storyTrade,get YEAR(){return YEAR},renderCard,VOICES,ADDR,addrOf,sceneWhere,cam,drawScenes,SCENES,set clock(v){clock=v},household,houses,setYear,aliveAt,renderDeep,STORIES,houseById,get threads(){return threads}};
+window.__anth={RH_sched:(h,Y)=>sched(h,Y),STORIES_has:id=>!!STORIES[id],RH_hash:(Y,m)=>RH.fnv(RH.stateString(houses.concat(newHouses).filter(h=>h.built<=Y&&h.destroyed>Y).sort((a,b)=>a.id-b.id).map(h=>[h.id,sched(h,Y)]),Y,m)),newHouses,SURF,surfCur,tradeAt,tradeOfH,TR,CF,storyTrade,get YEAR(){return YEAR},renderCard,VOICES,ADDR,addrOf,sceneWhere,cam,drawScenes,SCENES,set clock(v){clock=v},household,houses,setYear,aliveAt,renderDeep,STORIES,houseById,get threads(){return threads}};
 })();
 </script>
 </body>
